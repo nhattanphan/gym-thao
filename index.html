@@ -501,8 +501,8 @@ body.inlesson .timer{bottom:auto;top:calc(66px + env(safe-area-inset-top,0px))}
 const W=(n,sr,rest,tip,o={})=>({n,sr,rest,tip,...o});
 const PLAN={
  A:{t:"Mông chính",sub:"Hip thrust · RDL · Bulgarian",col:"--a",items:[
-  W("Khởi động: đi dốc 5′, glute bridge 2 × 15, band walk 2 × 10 bước","5′","","Làm nóng hông, cảm nhận mông siết",{warm:1,k:"bridge"}),
-  W("Barbell hip thrust","4 × 8–12","90″","Lưng trên tựa ghế, cằm hơi cúi. Đẩy hông lên đến khi thân thẳng, siết mông 1 giây ở trên"),
+  W("Khởi động: đi dốc 5′, máy dạng chân nhẹ 1 × 20, 1 hiệp hip thrust máy thật nhẹ","5′","","Làm nóng hông, cảm nhận mông siết",{warm:1,k:"stretch"}),
+  W("Hip thrust máy (hoặc tạ đơn đặt trên hông)","4 × 8–12","90″","Lưng trên tựa đệm, cằm hơi cúi. Đẩy hông lên đến khi thân thẳng, siết mông 1 giây ở trên"),
   W("Romanian deadlift (tạ đơn)","3 × 10","90″","Gối hơi chùng, đẩy hông ra sau, tạ sát chân. Dừng khi căng đùi sau"),
   W("Bulgarian split squat","3 × 8 mỗi bên","75″","Chân sau gác ghế. Người hơi đổ trước, hạ sâu để dồn lực vào mông"),
   W("Cable kickback","3 × 12 mỗi bên","45″","Đá chân ra sau bằng mông, không cong lưng"),
@@ -514,10 +514,10 @@ const PLAN={
   W("Seated cable row","3 × 10–12","75″","Lưng thẳng, ép hai bả vai, dừng 1 giây"),
   W("Dumbbell shoulder press","3 × 10","75″","Ngồi thẳng, đẩy lên không khoá khuỷu"),
   W("Incline dumbbell press","3 × 10","75″","Ghế dốc 30°, hạ chậm 2 giây"),
-  W("Plank","3 × 30–45″","45″","Siết mông và bụng, người thẳng một đường",{cardio:1}),
+  W("Cable crunch (quỳ, dây thừng)","3 × 12–15","45″","Cuộn người xuống bằng bụng, hông giữ yên"),
   W("Chạy bộ","30′","","Ngày này chạy đủ 30′",{cardio:1,k:"walk"})]},
  C:{t:"Mông & đùi sau",sub:"Squat · leg press · step-up",col:"--c",items:[
-  W("Khởi động: đi dốc 5′, glute bridge 1 chân 2 × 10","5′","","",{warm:1,k:"bridge"}),
+  W("Khởi động: đi dốc 5′, máy dạng chân nhẹ 1 × 20","5′","","Làm nóng hông",{warm:1,k:"stretch"}),
   W("Goblet squat","3 × 10–12","90″","Ôm tạ trước ngực, ngồi sâu, gối theo hướng mũi chân"),
   W("Leg press (đặt chân cao và rộng)","3 × 12","90″","Chân cao trên bàn đạp để dồn vào mông, không khoá gối"),
   W("Step-up lên bục","3 × 10 mỗi bên","60″","Đạp bằng gót chân trên bục, không bật chân dưới"),
@@ -545,12 +545,13 @@ const EXI={
  row:{a:{head:[44,32],S:[42,42],E:[56,52],H:[72,56],P:[40,70],K:[60,62],F:[78,72]},b:{head:[44,32],S:[42,42],E:[28,52],H:[46,55],P:[40,70],K:[60,62],F:[78,72]},cable:[98,62],props:'<path d="M30 72h22M80 66v14"/>'},
  ohp:{a:{head:[48,26],S:[48,36],E:[56,44],H:[56,32],P:[48,64],K:[64,66],F:[66,90]},b:{head:[48,26],S:[48,36],E:[52,22],H:[50,10],P:[48,64],K:[64,66],F:[66,90]},w:"db",props:'<path d="M38 68h28M44 68v22M40 68l-4-30"/>'},
  incline:{a:{head:[45,28],S:[44,38],E:[56,30],H:[66,22],P:[34,66],K:[52,70],F:[56,90]},b:{head:[45,28],S:[44,38],E:[38,50],H:[52,38],P:[34,66],K:[52,70],F:[56,90]},w:"db",props:'<path d="M28 74 46 30M30 74h30"/>'},
+ crunch:{a:{head:[54,24],S:[52,34],E:[58,30],H:[56,22],P:[50,62],K:[46,88],F:[30,90]},b:{head:[68,54],S:[62,50],E:[66,58],H:[64,50],P:[50,62],K:[46,88],F:[30,90]},cable:[56,0]},
  plank:{a:{head:[80,58],S:[72,62],E:[72,74],H:[84,74],P:[44,64],K:[30,68],F:[16,74]},b:{head:[80,56],S:[72,61],E:[72,74],H:[84,74],P:[44,62],K:[30,68],F:[16,74]}},
  walk:{a:XP({E:[44,38],H:[40,50],K:[56,70],F:[62,88],K2:[44,70],F2:[38,90]}),b:XP({E:[56,38],H:[60,50],K:[44,70],F:[38,90],K2:[56,70],F2:[62,88]}),props:'<path d="M14 92 88 82"/>'},
  stretch:{a:XP({}),b:XP({E:[52,12],H:[50,1]})}};
-const EXNAME={hipthrust:"Hip thrust",bridge:"Glute bridge",rdl:"Romanian deadlift",bulgarian:"Bulgarian split squat",kickback:"Cable kickback",abduction:"Hip abduction",goblet:"Goblet squat",legpress:"Leg press",stepup:"Step-up",legcurl:"Leg curl",backext:"Back extension",pulldown:"Lat pulldown",row:"Seated cable row",ohp:"Shoulder press",incline:"Incline press",plank:"Plank",walk:"Đi dốc / chạy",stretch:"Khởi động"};
+const EXNAME={hipthrust:"Hip thrust (máy)",rdl:"Romanian deadlift",bulgarian:"Bulgarian split squat",kickback:"Cable kickback",abduction:"Hip abduction",goblet:"Goblet squat",legpress:"Leg press",stepup:"Step-up",legcurl:"Leg curl",backext:"Back extension",pulldown:"Lat pulldown",row:"Seated cable row",ohp:"Shoulder press",incline:"Incline press",crunch:"Cable crunch",walk:"Đi dốc / chạy",stretch:"Khởi động"};
 function exKey(x){if(x.k)return x.k;const n=x.n.toLowerCase();
-  const R=[[/hip thrust/,"hipthrust"],[/bridge/,"bridge"],[/romanian|rdl/,"rdl"],[/bulgarian|split squat/,"bulgarian"],[/kickback/,"kickback"],[/abduction/,"abduction"],[/goblet|squat/,"goblet"],[/leg press/,"legpress"],[/step-up/,"stepup"],[/leg curl/,"legcurl"],[/back extension/,"backext"],[/pulldown/,"pulldown"],[/row/,"row"],[/shoulder press/,"ohp"],[/incline|press/,"incline"],[/plank/,"plank"],[/chạy|đi dốc/,"walk"]];
+  const R=[[/hip thrust/,"hipthrust"],[/bridge/,"bridge"],[/romanian|rdl/,"rdl"],[/bulgarian|split squat/,"bulgarian"],[/kickback/,"kickback"],[/abduction/,"abduction"],[/goblet|squat/,"goblet"],[/leg press/,"legpress"],[/step-up/,"stepup"],[/leg curl/,"legcurl"],[/back extension/,"backext"],[/pulldown/,"pulldown"],[/row/,"row"],[/shoulder press/,"ohp"],[/incline|press/,"incline"],[/crunch/,"crunch"],[/plank/,"plank"],[/chạy|đi dốc/,"walk"]];
   for(const [r,k] of R)if(r.test(n))return k;return"stretch"}
 const STILL=(()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}})();
 function exSvg(key,cls="exill",o={}){const D=EXI[key]||EXI.stretch,A=D.a,B=D.b||D.a,dur=o.dur||2.6;
@@ -569,12 +570,12 @@ function exSvg(key,cls="exill",o={}){const D=EXI[key]||EXI.stretch,A=D.a,B=D.b||
 /* ---------- Hướng dẫn chi tiết từng động tác ---------- */
 const GUIDE={
  hipthrust:{m:["Mông to","Đùi sau"],hl:["P","PK"],ph:["Đẩy hông lên, siết mông","Hạ hông xuống chậm"],
-  setup:["Ngồi bệt dưới sàn, lưng trên (ngang bả vai) tựa vào cạnh ghế băng.","Lăn thanh đòn lên nằm ngay nếp hông, lót miếng đệm mút cho đỡ đau.","Hai bàn chân rộng bằng vai, cách mông khoảng 1 bàn chân, mũi chân hơi mở ra."],
+  setup:["Máy hip thrust (glute drive): ngồi vào máy, lưng trên (ngang bả vai) tựa vào đệm, đai hoặc đệm tạ nằm ngay nếp hông.","Không có máy: tựa lưng trên vào ghế băng, đặt 1 tạ đơn nặng nằm ngang trên hông, hai tay giữ hai đầu tạ.","Hai bàn chân rộng bằng vai, cách mông khoảng 1 bàn chân, mũi chân hơi mở ra."],
   steps:["Cằm hơi cúi, mắt nhìn về trước (không ngửa cổ nhìn trần).","Đạp bằng gót chân, đẩy hông lên đến khi người thẳng từ vai đến gối.","Ở trên cùng: siết chặt mông 1 giây, ống chân gần thẳng đứng.","Hạ hông xuống chậm khoảng 2 giây, mông gần chạm sàn rồi đẩy lên tiếp."],
   breath:"Hít vào ở dưới, thở ra khi đẩy hông lên.",
   err:["Ưỡn lưng dưới ở trên cùng thay vì siết mông.","Ngửa cổ nhìn trần nhà.","Bàn chân quá xa (thấy đùi sau) hoặc quá gần (thấy đùi trước)."],
-  start:"Thanh đòn trống 15–20 kg, hoặc máy hip thrust. Làm tốt 12 rep thì thêm 2,5 kg mỗi bên.",
-  easy:"Glute bridge nằm dưới sàn, không tạ hoặc để 1 tạ đơn trên hông."},
+  start:"Máy: 20–30 kg. Tạ đơn: 10–15 kg. Làm được 12 rep ở mọi hiệp thì tăng một nấc.",
+  easy:"Giảm tạ trên máy, hoặc làm không tạ với lưng tựa ghế."},
  bridge:{m:["Mông to"],hl:["P"],ph:["Đẩy hông lên, siết mông","Hạ xuống chậm"],
   setup:["Nằm ngửa, co gối, bàn chân đặt sàn rộng bằng hông.","Hai tay xuôi dọc thân, lòng bàn tay úp."],
   steps:["Đạp gót chân, đẩy hông lên đến khi vai-hông-gối thành đường thẳng.","Siết mông 1–2 giây ở trên.","Hạ xuống chậm, chạm nhẹ sàn rồi lên tiếp."],
@@ -643,7 +644,7 @@ const GUIDE={
   steps:["Khoanh tay trước ngực, lưng hơi tròn, cằm cúi.","Hạ người xuống chậm đến khi thấy căng mông, đùi sau.","Siết mông, đẩy hông vào đệm để kéo người lên.","Dừng khi người thẳng, không ngửa người quá."],
   breath:"Hít vào khi xuống, thở ra khi lên.",
   err:["Ưỡn lưng ngửa người ở trên.","Đệm đặt quá cao trên bụng."],
-  start:"Không tạ. Dễ rồi thì ôm 1 bánh tạ 5 kg.",
+  start:"Không tạ. Dễ rồi thì ôm 1 tạ đơn 4–6 kg trước ngực.",
   easy:"Giảm biên độ, chỉ hạ nửa đường."},
  pulldown:{m:["Lưng xô"],hl:["SP","SE"],ph:["Kéo thanh xuống ngang cằm","Thả lên chậm, duỗi tay"],
   setup:["Chỉnh đệm gối để đùi bị giữ chặt.","Nắm thanh rộng hơn vai một chút, lòng bàn tay hướng ra trước."],
@@ -673,6 +674,13 @@ const GUIDE={
   err:["Khuỷu tay mở ngang vai (đau vai).","Thả tạ rơi nhanh."],
   start:"Mỗi tay 5–7 kg.",
   easy:"Hít đất với tay chống lên ghế băng."},
+ crunch:{m:["Bụng"],hl:["SP"],ph:["Cuộn người xuống bằng bụng","Ngẩng lên chậm"],
+  setup:["Gắn dây thừng vào ròng rọc cao của máy cáp.","Quỳ trước máy, hai tay cầm hai đầu dây giữ cạnh đầu."],
+  steps:["Giữ hông yên, cuộn lưng xuống, khuỷu tay hướng về đùi.","Siết bụng 1 giây ở dưới.","Ngẩng lên chậm đến khi bụng giãn ra."],
+  breath:"Thở ra hết khi cuộn xuống.",
+  err:["Kéo bằng tay thay vì bụng.","Ngồi ngả mông ra sau để kéo."],
+  start:"10–20 kg.",
+  easy:"Giảm tạ, làm chậm hơn."},
  plank:{m:["Bụng","Mông"],hl:["SP","P"],ph:["Giữ người thẳng","Thở đều, siết bụng"],
   setup:["Chống hai khuỷu tay ngay dưới vai, cẳng tay trên thảm.","Duỗi chân ra sau, mũi chân chạm sàn."],
   steps:["Người thẳng một đường từ đầu đến gót.","Siết bụng như sắp bị đấm, siết mông.","Giữ đủ thời gian, mắt nhìn xuống sàn."],

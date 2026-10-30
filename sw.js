@@ -1,5 +1,5 @@
 /* Cho app mở được khi không có mạng. Đổi VERSION mỗi lần cập nhật index.html. */
-const VERSION = "gym-thao-v1";
+const VERSION = "gym-thao-v2";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon-180.png", "icons/icon-192.png", "icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL))); self.skipWaiting(); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VERSION).map(k => caches.delete(k))))); self.clients.claim(); });
