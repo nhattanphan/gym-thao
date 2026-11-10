@@ -849,19 +849,22 @@ function ringSvg(segs,{r=40,sw=10,cls=""}={}){const n=Math.max(1,segs.length),C=
   segs.forEach((on,i)=>{o+=`<circle cx="${S2}" cy="${S2}" r="${r}" fill="none" class="${on?"on":"off"}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${Math.max(.1,seg-gap)} ${C-seg+gap}" stroke-dashoffset="${-i*seg-gap/2}" style="--d:${i*90}ms"/>`});
   return o+`</g></svg>`}
 function pathNodes(){const L=[],from=addDays(TODAY,-21);
-  const days=[...new Set([...Object.keys(S.sess),...Object.keys(S.act)])].filter(d=>d>=from&&d<TODAY).sort();
-  days.forEach(d=>{const w=S.sess[d],a=S.act[d]||{};if(hasDone(w))L.push({d,t:"gym",k:w.kind,w});if(a.tennis)L.push({d,t:"tennis"});if(a.run)L.push({d,t:"run"})});
-  const past=L.slice(-7),tw=S.sess[TODAY],tk=tw?tw.kind:nextKind();
-  past.push({d:TODAY,t:"today",k:tk,w:tw});const a=S.act[TODAY]||{};if(a.tennis)past.push({d:TODAY,t:"tennis"});if(a.run)past.push({d:TODAY,t:"run"});
-  let k=tk;for(let i=1;i<=4;i++){k=KINDS[(KINDS.indexOf(k)+1)%3];past.push({d:addDays(TODAY,2*i),t:"future",k})}
+  const first=Object.keys(S.sess).concat(Object.keys(S.act)).sort()[0]||TODAY;
+  for(let d=from>first?from:first;d<TODAY;d=addDays(d,1)){const w=S.sess[d],a=S.act[d]||{},n0=L.length;
+    if(hasDone(w))L.push({d,t:"gym",k:w.kind,w});if(a.tennis)L.push({d,t:"tennis"});if(a.run)L.push({d,t:"run"});
+    if(L.length===n0)L.push({d,t:"rest"})}   // ngày không tập gì = ngày nghỉ
+  const past=L.slice(-10),tw=S.sess[TODAY],tk=tw?tw.kind:nextKind();
+  past.push({d:TODAY,t:"today",k:tk,w:tw});const a=S.act[TODAY]||{};if(a.tennis)past.push({d:TODAY,t:"tennis"});if(a.run)past.push({d:TODAY,t:"run"});if(a.rest&&!tw)past.push({d:TODAY,t:"rest"});
+  let k=tk;for(let i=1;i<=4;i++){k=KINDS[(KINDS.indexOf(k)+1)%3];past.push({d:addDays(TODAY,2*i-1),t:"rest",fut:1});past.push({d:addDays(TODAY,2*i),t:"future",k})}
   return past}
 const XS=[0,62,88,62,0,-62,-88,-62];let pathScrolled=false;
 function renderPath(){const el=$("path");if(!el)return;const W=el.clientWidth||360,N=pathNodes();let y=56,html="",pts=[],ti=0;
-  N.forEach((n,i)=>{const big=n.t==="today",sz=n.t==="tennis"||n.t==="run"?64:big?112:96,x=Math.max(-W/2+sz/2+8,Math.min(W/2-sz/2-8,XS[i%8]*Math.min(1,W/360)));
+  N.forEach((n,i)=>{const big=n.t==="today",sz=n.t==="tennis"||n.t==="run"||n.t==="rest"?64:big?112:96,x=Math.max(-W/2+sz/2+8,Math.min(W/2-sz/2-8,XS[i%8]*Math.min(1,W/360)));
     const cx=W/2+x,cy=y+sz/2;pts.push([cx,cy,n]);if(big)ti=i;
     const dt=new Date(n.d+"T12:00:00"),lab=`${WD[dt.getDay()]} ${fmtD(n.d)}`,spR=W-(cx+sz/2)-14,spL=cx-sz/2-14,side=spL>spR?"l":"r",lw=Math.max(60,Math.min(150,side==="l"?spL:spR));
     let core="",ring="",cls="node",bub="",col="--a",sub="";
-    if(n.t==="tennis"||n.t==="run"){col=n.t==="tennis"?"--b":"--run";core=n.t==="tennis"?"🎾":"🏃‍♀️";cls+=" mini done";sub=n.t==="tennis"?"Tennis":"Chạy "+((S.act[n.d]||{}).run||30)+"′"}
+    if(n.t==="rest"){col="--muted";core="😴";cls+=" mini rest"+(n.fut?" future":" done");sub="Nghỉ"}
+    else if(n.t==="tennis"||n.t==="run"){col=n.t==="tennis"?"--b":"--run";core=n.t==="tennis"?"🎾":"🏃‍♀️";cls+=" mini done";sub=n.t==="tennis"?"Tennis":"Chạy "+((S.act[n.d]||{}).run||30)+"′"}
     else{col=PLAN[n.k].col;const sg=n.t==="future"?mainOf(n.k).map(()=>false):segsOf(n.w,n.k);ring=ringSvg(sg,{cls:n.t==="future"?"lock":""});
       const fin=n.t==="gym"||(n.w&&n.w.finished);
       core=fin?`<svg class="tick" viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg>`:n.t==="future"?`<svg class="lk" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`:`<b>${n.k}</b>`;
@@ -871,7 +874,7 @@ function renderPath(){const el=$("path");if(!el)return;const W=el.clientWidth||3
     html+=`<div class="pn" style="left:${cx-sz/2}px;top:${y}px;width:${sz}px;height:${sz}px;--k:var(${col})">
       ${bub?`<span class="bubble">${bub}</span>`:""}
       <button type="button" class="${cls}" data-node="${i}" aria-label="${esc(lab+" "+sub)}">${ring}<span class="core">${core}</span></button>
-      <span class="plab ${side}" style="max-width:${lw}px"><b>${n.d===TODAY?"Hôm nay":lab}</b><span>${esc(sub)}${n.t==="future"?" · dự kiến":""}</span></span></div>`;
+      <span class="plab ${side}" style="max-width:${lw}px"><b>${n.d===TODAY?"Hôm nay":lab}</b><span>${esc(sub)}${n.t==="future"||n.fut?" · dự kiến":""}</span></span></div>`;
     y+=sz+(big?54:34)});
   let d="";for(let i=1;i<pts.length;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i],my=(y0+y1)/2;d+=`<path class="${i<=ti?"pdone":"pfut"}" d="M${x0} ${y0} C ${x0} ${my}, ${x1} ${my}, ${x1} ${y1}"/>`}
   el.style.height=y+"px";el.innerHTML=`<svg class="plines" width="${W}" height="${y}" aria-hidden="true">${d}</svg>`+html;el._nodes=N;
@@ -881,6 +884,7 @@ function renderPath(){const el=$("path");if(!el)return;const W=el.clientWidth||3
   $("todayActRow").innerHTML=actRow(TODAY)}
 function nodeTap(i){const n=$("path")._nodes[i];if(!n)return;
   if(n.t==="today"){const w=S.sess[TODAY];if(!w){pick=n.k;openPick()}else if(w.finished){selDay=TODAY;calM=TODAY.slice(0,7);goTab("cal")}else openLesson();return}
+  if(n.t==="rest"&&n.fut){toast(`${WDF[new Date(n.d+"T12:00:00").getDay()]} ${fmtD(n.d)}: ngày nghỉ, cho cơ hồi phục 😴`);return}
   if(n.t==="future"){toast(`Buổi ${n.k} dự kiến ${WDF[new Date(n.d+"T12:00:00").getDay()]} ${fmtD(n.d)}. Xong buổi hôm nay để mở khoá nhé!`);return}
   selDay=n.d;calM=n.d.slice(0,7);goTab("cal")}
 
