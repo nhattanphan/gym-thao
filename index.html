@@ -512,8 +512,8 @@ const PLAN={
   W("Khởi động: rower 5′ + xoay vai","5′","","Làm nóng vai và lưng",{warm:1,k:"stretch"}),
   W("Lat pulldown","3 × 10–12","75″","Kéo thanh xuống ngang cằm bằng khuỷu tay, ngực hướng lên"),
   W("Seated cable row","3 × 10–12","75″","Lưng thẳng, ép hai bả vai, dừng 1 giây"),
-  W("Dumbbell shoulder press","3 × 10","75″","Ngồi thẳng, đẩy lên không khoá khuỷu"),
-  W("Incline dumbbell press","3 × 10","75″","Ghế dốc 30°, hạ chậm 2 giây"),
+  W("Cable lateral raise (một tay)","3 × 12–15 mỗi bên","45″","Ròng rọc thấp ở bên kia người, nâng tay sang ngang bằng khuỷu đến ngang vai, hạ chậm"),
+  W("Low-to-high cable fly (ngực trên)","3 × 12","60″","Ròng rọc thấp hai bên, đưa hai tay từ hông lên chụm trước ngực, khuỷu hơi cong"),
   W("Cable crunch (quỳ, dây thừng)","3 × 12–15","45″","Cuộn người xuống bằng bụng, hông giữ yên"),
   W("Chạy bộ","30′","","Ngày này chạy đủ 30′",{cardio:1,k:"walk"})]},
  C:{t:"Mông & đùi sau",sub:"Squat · leg press · step-up",col:"--c",items:[
@@ -544,14 +544,16 @@ const EXI={
  pulldown:{a:{head:[48,28],S:[48,38],E:[52,22],H:[52,9],P:[48,66],K:[64,64],F:[64,90]},b:{head:[48,28],S:[48,38],E:[42,50],H:[52,36],P:[48,66],K:[64,64],F:[64,90]},cable:[52,0],w:"bar",props:'<path d="M38 68h22M44 68v22M58 58h12"/>'},
  row:{a:{head:[44,32],S:[42,42],E:[56,52],H:[72,56],P:[40,70],K:[60,62],F:[78,72]},b:{head:[44,32],S:[42,42],E:[28,52],H:[46,55],P:[40,70],K:[60,62],F:[78,72]},cable:[98,62],props:'<path d="M30 72h22M80 66v14"/>'},
  ohp:{a:{head:[48,26],S:[48,36],E:[56,44],H:[56,32],P:[48,64],K:[64,66],F:[66,90]},b:{head:[48,26],S:[48,36],E:[52,22],H:[50,10],P:[48,64],K:[64,66],F:[66,90]},w:"db",props:'<path d="M38 68h28M50 68v22M43 68 40 30"/>'},
+ lateral:{a:{head:[50,14],S:[50,24],E:[40,38],H:[42,52],P:[50,52],K:[50,71],F:[50,90]},b:{head:[50,14],S:[50,24],E:[30,26],H:[16,24],P:[50,52],K:[50,71],F:[50,90]},w:"db",cable:[66,92]},
+ lowfly:{a:{head:[50,14],S:[50,24],E:[38,42],H:[30,54],P:[50,52],K:[50,71],F:[50,90]},b:{head:[50,14],S:[50,24],E:[40,36],H:[47,33],P:[50,52],K:[50,71],F:[50,90]},w:"db",mir:1,cable:[8,90]},
  incline:{a:{head:[17,46],S:[24,52],E:[24,62],H:[31,49],P:[48,66],K:[66,64],F:[70,90]},b:{head:[17,46],S:[24,52],E:[30,41],H:[37,29],P:[48,66],K:[66,64],F:[70,90]},w:"db",props:'<path d="M46 68 11 48M46 68h20M58 68v24M30 59v33"/>'},
  crunch:{a:{head:[54,24],S:[52,34],E:[58,30],H:[56,22],P:[50,62],K:[46,88],F:[30,90]},b:{head:[68,54],S:[62,50],E:[66,58],H:[64,50],P:[50,62],K:[46,88],F:[30,90]},cable:[56,0]},
  plank:{a:{head:[80,58],S:[72,62],E:[72,74],H:[84,74],P:[44,64],K:[30,68],F:[16,74]},b:{head:[80,56],S:[72,61],E:[72,74],H:[84,74],P:[44,62],K:[30,68],F:[16,74]}},
  walk:{a:XP({E:[44,38],H:[40,50],K:[56,70],F:[62,88],K2:[44,70],F2:[38,90]}),b:XP({E:[56,38],H:[60,50],K:[44,70],F:[38,90],K2:[56,70],F2:[62,88]}),props:'<path d="M14 92 88 82"/>'},
  stretch:{a:XP({}),b:XP({E:[52,12],H:[50,1]})}};
-const EXNAME={hipthrust:"Hip thrust (máy)",rdl:"Romanian deadlift",bulgarian:"Bulgarian split squat",kickback:"Cable kickback",abduction:"Hip abduction",goblet:"Goblet squat",legpress:"Leg press",stepup:"Step-up",legcurl:"Leg curl",backext:"Back extension",pulldown:"Lat pulldown",row:"Seated cable row",ohp:"Shoulder press",incline:"Incline press",crunch:"Cable crunch",walk:"Đi dốc / chạy",stretch:"Khởi động"};
+const EXNAME={hipthrust:"Hip thrust (máy)",rdl:"Romanian deadlift",bulgarian:"Bulgarian split squat",kickback:"Cable kickback",abduction:"Hip abduction",goblet:"Goblet squat",legpress:"Leg press",stepup:"Step-up",legcurl:"Leg curl",backext:"Back extension",pulldown:"Lat pulldown",row:"Seated cable row",lateral:"Cable lateral raise",lowfly:"Cable fly ngực trên",crunch:"Cable crunch",walk:"Đi dốc / chạy",stretch:"Khởi động"};
 function exKey(x){if(x.k)return x.k;const n=x.n.toLowerCase();
-  const R=[[/hip thrust/,"hipthrust"],[/bridge/,"bridge"],[/romanian|rdl/,"rdl"],[/bulgarian|split squat/,"bulgarian"],[/kickback/,"kickback"],[/abduction/,"abduction"],[/goblet|squat/,"goblet"],[/leg press/,"legpress"],[/step-up/,"stepup"],[/leg curl/,"legcurl"],[/back extension/,"backext"],[/pulldown/,"pulldown"],[/row/,"row"],[/shoulder press/,"ohp"],[/incline|press/,"incline"],[/crunch/,"crunch"],[/plank/,"plank"],[/chạy|đi dốc/,"walk"]];
+  const R=[[/hip thrust/,"hipthrust"],[/bridge/,"bridge"],[/romanian|rdl/,"rdl"],[/bulgarian|split squat/,"bulgarian"],[/kickback/,"kickback"],[/abduction/,"abduction"],[/goblet|squat/,"goblet"],[/leg press/,"legpress"],[/step-up/,"stepup"],[/leg curl/,"legcurl"],[/back extension/,"backext"],[/pulldown/,"pulldown"],[/row/,"row"],[/lateral/,"lateral"],[/cable fly/,"lowfly"],[/shoulder press/,"ohp"],[/incline|press/,"incline"],[/crunch/,"crunch"],[/plank/,"plank"],[/chạy|đi dốc/,"walk"]];
   for(const [r,k] of R)if(r.test(n))return k;return"stretch"}
 const STILL=(()=>{try{return matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){return false}})();
 function exSvg(key,cls="exill",o={}){const D=EXI[key]||EXI.stretch,A=D.a,B=D.b||D.a,dur=o.dur||2.6;
@@ -667,6 +669,20 @@ const GUIDE={
   err:["Ưỡn lưng rời khỏi tựa ghế.","Hạ tạ quá thấp, nhún vai."],
   start:"Mỗi tay 4–6 kg.",
   easy:"Tạ nhẹ hơn, hoặc dùng máy đẩy vai."},
+ lateral:{m:["Vai giữa"],hl:["S"],ph:["Nâng tay sang ngang đến ngang vai","Hạ xuống chậm"],
+  setup:["Ròng rọc ở nấc thấp nhất, gắn tay cầm đơn.","Đứng nghiêng bên máy, tay xa máy cầm tay cầm, dây chạy chéo trước người; tay gần máy bám vào khung."],
+  steps:["Người hơi đổ về trước, khuỷu hơi cong.","Nâng tay sang ngang bằng khuỷu tay, dừng ngang vai.","Hạ xuống chậm 2 giây, không để tạ rơi."],
+  breath:"Thở ra khi nâng.",
+  err:["Nhún vai lên tai.","Giật người để nâng."],
+  start:"2,5 kg trên máy.",
+  easy:"Tạ nhẹ hơn, hoặc nâng tạ đơn 1–2 kg."},
+ lowfly:{m:["Ngực trên","Vai trước"],hl:["S"],ph:["Đưa hai tay lên chụm trước ngực","Hạ tay về hông chậm"],
+  setup:["Hai ròng rọc ở nấc thấp, gắn tay cầm đơn.","Đứng giữa hai cột, bước lên nửa bước, hai tay cầm tay cầm ở cạnh hông."],
+  steps:["Khuỷu hơi cong và giữ nguyên góc đó.","Đưa hai tay lên theo đường vòng, chụm lại trước ngực ngang cằm.","Siết ngực 1 giây rồi hạ chậm về cạnh hông."],
+  breath:"Thở ra khi đưa tay lên.",
+  err:["Gập duỗi khuỷu (thành bài đẩy).","Ngả người ra sau lấy đà."],
+  start:"Mỗi bên 2,5–5 kg trên máy.",
+  easy:"Giảm tạ, hoặc dùng máy pec deck."},
  incline:{m:["Ngực trên","Vai trước"],hl:["SE","S"],ph:["Hạ tạ xuống ngang ngực","Đẩy tạ lên"],
   setup:["Chỉnh ghế dốc khoảng 30°.","Ngồi xuống với 2 tạ đơn trên đùi, nằm ra và đưa tạ lên trên ngực."],
   steps:["Bả vai ép xuống ghế, chân đạp vững sàn.","Hạ tạ xuống hai bên ngực trong 2 giây, khuỷu tay chếch khoảng 45° so với người.","Đẩy tạ lên, hai tạ hơi chụm ở trên."],
