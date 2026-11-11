@@ -871,7 +871,7 @@ function renderPath(){const el=$("path");if(!el)return;const W=el.clientWidth||3
     const dt=new Date(n.d+"T12:00:00"),lab=`${WD[dt.getDay()]} ${fmtD(n.d)}`,spR=W-(cx+sz/2)-14,spL=cx-sz/2-14,side=spL>spR?"l":"r",lw=Math.max(60,Math.min(150,side==="l"?spL:spR));
     let core="",ring="",cls="node",bub="",col="--a",sub="";
     if(n.t==="rest"){col="--muted";core="😴";cls+=(n.today?" today rest":" mini rest")+(n.fut?" future":" done");sub="Nghỉ"}
-    else if(n.t==="tennis"){col="--ok";ring=ringSvg([true]);core="🎾";cls+=" done tennis"+(n.today?" today":"");sub="Tennis"}
+    else if(n.t==="tennis"){col="--ok";ring=ringSvg([true]);core="🎾";cls+=" done tennis"+(n.today?" today":"");sub="Tennis";if(n.today)bub="+ Tập thêm gym?"}
     else if(n.t==="run"){col=n.t==="tennis"?"--b":"--run";core=n.t==="tennis"?"🎾":"🏃‍♀️";cls+=" mini done";sub=n.t==="tennis"?"Tennis":"Chạy "+((S.act[n.d]||{}).run||30)+"′"}
     else{col=PLAN[n.k].col;const sg=n.t==="future"?mainOf(n.k).map(()=>false):segsOf(n.w,n.k);ring=ringSvg(sg,{cls:n.t==="future"?"lock":""});
       const fin=n.t==="gym"||(n.w&&n.w.finished);
@@ -892,16 +892,18 @@ function renderPath(){const el=$("path");if(!el)return;const W=el.clientWidth||3
   $("todayActRow").innerHTML=actRow(TODAY)}
 function nodeTap(i){const n=$("path")._nodes[i];if(!n)return;
   if(n.t==="today"){const w=S.sess[TODAY];if(!w){pick=n.k;openPick()}else if(w.finished){selDay=TODAY;calM=TODAY.slice(0,7);goTab("cal")}else openLesson();return}
+  if(n.today&&n.t==="tennis"){extraGym=1;pick=nextKind();openPick();return}
   if(n.t==="rest"&&n.fut){toast(`${WDF[new Date(n.d+"T12:00:00").getDay()]} ${fmtD(n.d)}: ngày nghỉ, cho cơ hồi phục 😴`);return}
   if(n.t==="future"){toast(`Buổi ${n.k} dự kiến ${WDF[new Date(n.d+"T12:00:00").getDay()]} ${fmtD(n.d)}. Xong buổi hôm nay để mở khoá nhé!`);return}
   selDay=n.d;calM=n.d.slice(0,7);goTab("cal")}
 
 /* ---------- Bảng chọn bài ---------- */
+let extraGym=0;
 function openPick(){$("pickS").hidden=false;document.body.style.overflow="hidden";renderPick()}
-function closePick(){$("pickS").hidden=true;if($("lesson").hidden&&$("sheet").hidden)document.body.style.overflow=""}
+function closePick(){$("pickS").hidden=true;extraGym=0;if($("lesson").hidden&&$("sheet").hidden)document.body.style.overflow=""}
 function renderPick(){if($("pickS").hidden)return;const nk=nextKind(),k=pick||nk;
   $("pkE").textContent=`${WDF[new Date().getDay()]}, ${fmtD(TODAY)}`;
-  $("pkBody").innerHTML=`<div class="choices" role="group" aria-label="Chọn buổi gym">${KINDS.map(x=>`<button type="button" class="choice" data-pick="${x}" aria-pressed="${x===k}" style="--k:var(${PLAN[x].col})">${x===nk?`<span class="sug">Gợi ý</span>`:""}<span class="kb">${x}</span>${exSvg(MAINK[x])}<span class="ctext"><b>${PLAN[x].t}</b><small>${mainOf(x).length} bài · ${PLAN[x].sub}</small></span></button>`).join("")}</div>
+  $("pkBody").innerHTML=(extraGym?`<p class="small muted" style="margin:0 0 10px">🎾 Hôm nay đã đánh tennis rồi. Vẫn muốn tập thêm gym thì chọn buổi bên dưới — nên chọn buổi nhẹ hơn hoặc bớt 1 hiệp mỗi bài.</p>`:"")+`<div class="choices" role="group" aria-label="Chọn buổi gym">${KINDS.map(x=>`<button type="button" class="choice" data-pick="${x}" aria-pressed="${x===k}" style="--k:var(${PLAN[x].col})">${x===nk?`<span class="sug">Gợi ý</span>`:""}<span class="kb">${x}</span>${exSvg(MAINK[x])}<span class="ctext"><b>${PLAN[x].t}</b><small>${mainOf(x).length} bài · ${PLAN[x].sub}</small></span></button>`).join("")}</div>
    <button class="btn big" type="button" data-start="${k}" style="background:var(${PLAN[k].col})">Bắt đầu buổi ${k} →</button>
    <div style="display:flex;flex-direction:column;gap:6px"><span class="small muted">Không đi gym? Hôm nay:</span>${actRow(TODAY)}</div>`}
 
